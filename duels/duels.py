@@ -24,13 +24,13 @@ class Duels:
 		self.nuels = "duels"
 		self.wlt = dataIO.load_json("data/duels/account.json")
 		
-	@commands.group(name="duels5", pass_context=True)
+	@commands.group(name="duels", pass_context=True)
 	async def _duels(self, ctx):
 		"""Duel with another player!!"""
 		if ctx.invoked_subcommand is None:
 			await send_cmd_help(ctx)
 	
-	@commands.command(name="duel5", pass_context=True, no_pm=True)
+	@commands.command(name="duel", pass_context=True, no_pm=True)
 	async def _duel(self, ctx, user: discord.Member=None, otheruser : discord.Member=None):
 		"""Duel another player"""
 		if not user or not otheruser:
