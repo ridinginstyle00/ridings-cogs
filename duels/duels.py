@@ -24,18 +24,19 @@ class Duels:
 		self.nuels = "duels"
 		self.wlt = dataIO.load_json("data/duels/account.json")
 		
-	@commands.group(name="duels", pass_context=True)
+	@commands.group(name="duels5", pass_context=True)
 	async def _duels(self, ctx):
 		"""Duel with another player!!"""
 		if ctx.invoked_subcommand is None:
 			await send_cmd_help(ctx)
 	
-	@commands.command(name="duel", pass_context=True, no_pm=True)
-	async def _duel(self, ctx, user: discord.Member, otheruser : discord.Member):
+	@commands.command(name="duel5", pass_context=True, no_pm=True)
+	async def _duel(self, ctx, user: discord.Member=None, otheruser : discord.Member=None):
 		"""Duel another player"""
-		author = ctx.message.author
-		if not user:
-			await self.bot.say("{} please mention a user to duel with!".format(author.mention))
+		if not user or not otheruser:
+			await self.bot.reply("Please mention two users that you want to see a duel of!")
+		elif user.id == otheruser.id:
+			await self.bot.reply("Silly, you can't see a duel of someone against themselves!")
 		else:
 						try:
 							nick_player1 = user.name
@@ -63,27 +64,27 @@ class Duels:
 							hp_player1 = hp_player1 - action_damage4
 	
 							if hp_player1 > hp_player2:
-								winner_player = nick_player1
+								winning_player = nick_player1
 								losing_player = nick_player2
 								remaining_hp = hp_player1
 								await asyncio.sleep(1)	
-								await self.bot.say("After 4 rounds of bloody combat, the winner is **{}** with **{}** health!".format(winner_player, remaining_hp))
+								await self.bot.say("After 4 rounds of bloody combat, the winner is **{}** with **{}** health!".format(winning_player, remaining_hp))
 								if player1_id not in self.wlt:
-									self.wlt[player1_id] = {"name": author.name, "Wins": 0, "Losses": 0, "Ties": 0}
+									self.wlt[player1_id] = {"name": winning_player, "Wins": 0, "Losses": 0, "Ties": 0}
 									dataIO.save_json("data/duels/account.json", self.wlt)
-									await self.bot.say("{} has not yet entered the duel tournament!".format(winner_player))
+									await self.bot.say("{} has not yet entered the duel tournament!".format(winning_player))
 									await asyncio.sleep(.5)
-									await self.bot.say("{} has joined the duel tournament, currently changing settings!".format(winner_player))
-									await self.bot.say("{} gained +1 WIN!!".format(winner_player))
+									await self.bot.say("{} has joined the duel tournament, currently changing settings!".format(winning_player))
+									await self.bot.say("{} gained +1 WIN!!".format(winning_player))
 									self.wlt[player1_id]["Wins"] += 1
 									dataIO.save_json("data/duels/account.json", self.wlt)
 								else:
-									await self.bot.say("{} gained +1 WIN!!".format(winner_player))
+									await self.bot.say("{} gained +1 WIN!!".format(winning_player))
 									self.wlt[player1_id]["Wins"] += 1
 									dataIO.save_json("data/duels/account.json", self.wlt)
 		
 								if player2_id not in self.wlt:
-									self.wlt[player2_id] = {"name": user.name, "Wins": 0, "Losses": 0, "Ties": 0}
+									self.wlt[player2_id] = {"name": losing_player, "Wins": 0, "Losses": 0, "Ties": 0}
 									dataIO.save_json("data/duels/account.json", self.wlt)
 									await self.bot.say("{} has not yet entered the duel tournament!".format(losing_player))
 									await asyncio.sleep(.5)
@@ -100,7 +101,7 @@ class Duels:
 								await asyncio.sleep(1)	
 								await self.bot.say("After 4 rounds of bloody combat, the winner is **no one because it's a draw** with both players still having **{}** health!".format(remaining_hp))
 								if player1_id not in self.wlt:
-									self.wlt[player1_id] = {"name": author.name, "Wins": 0, "Losses": 0, "Ties": 0}
+									self.wlt[player1_id] = {"name": nick_player1, "Wins": 0, "Losses": 0, "Ties": 0}
 									dataIO.save_json("data/duels/account.json", self.wlt)
 									await self.bot.say("{} has not yet entered the duel tournament!".format(nick_player1))
 									await asyncio.sleep(.5)
@@ -114,7 +115,7 @@ class Duels:
 									dataIO.save_json("data/duels/account.json", self.wlt)
 								
 								if player2_id not in self.wlt:
-									self.wlt[player2_id] = {"name": user.name, "Wins": 0, "Losses": 0, "Ties": 0}
+									self.wlt[player2_id] = {"name": nick_player2, "Wins": 0, "Losses": 0, "Ties": 0}
 									dataIO.save_json("data/duels/account.json", self.wlt)
 									await self.bot.say("{} has not yet entered the duel tournament!".format(nick_player2))
 									await asyncio.sleep(.5)
@@ -128,26 +129,26 @@ class Duels:
 									dataIO.save_json("data/duels/account.json", self.wlt)
 								
 							else:
-								winner_player = nick_player2
+								winning_player = nick_player2
 								losing_player = nick_player1
 								remaining_hp = hp_player2
 								await asyncio.sleep(1)	
-								await self.bot.say("After 4 rounds of bloody combat, the winner is **{}** with **{}** health!".format(winner_player, remaining_hp))
+								await self.bot.say("After 4 rounds of bloody combat, the winner is **{}** with **{}** health!".format(winning_player, remaining_hp))
 								if player2_id not in self.wlt:
-									self.wlt[player2_id] = {"name": user.name, "Wins": 0, "Losses": 0, "Ties": 0}
+									self.wlt[player2_id] = {"name": winning_player, "Wins": 0, "Losses": 0, "Ties": 0}
 									dataIO.save_json("data/duels/account.json", self.wlt)
-									await self.bot.say("{} has not yet entered the duel tournament!".format(winner_player))
+									await self.bot.say("{} has not yet entered the duel tournament!".format(winning_player))
 									await asyncio.sleep(.5)
-									await self.bot.say("{} has joined the duel tournament, currently changing settings!".format(winner_player))
-									await self.bot.say("{} gained +1 WIN!!".format(winner_player))
+									await self.bot.say("{} has joined the duel tournament, currently changing settings!".format(winning_player))
+									await self.bot.say("{} gained +1 WIN!!".format(winning_player))
 									self.wlt[player2_id]["Wins"] += 1
 									dataIO.save_json("data/duels/account.json", self.wlt)
 								else:
-									await self.bot.say("{} gained +1 WIN!!".format(winner_player))
+									await self.bot.say("{} gained +1 WIN!!".format(winning_player))
 									self.wlt[player2_id]["Wins"] += 1
 									dataIO.save_json("data/duels/account.json", self.wlt)
 								if player1_id not in self.wlt:
-									self.wlt[player1_id] = {"name": author.name, "Wins": 0, "Losses": 0, "Ties": 0}
+									self.wlt[player1_id] = {"name": losing_player, "Wins": 0, "Losses": 0, "Ties": 0}
 									dataIO.save_json("data/duels/account.json", self.wlt)
 									await self.bot.say("{} has not yet entered the duel tournament!".format(losing_player))
 									await asyncio.sleep(.5)
@@ -237,16 +238,6 @@ class Duels:
 			await self.bot.say("Duel list has been reset")
 		else:
 			await self.bot.say("I can't delete a list that's already empty")
-	
-	def user_or_author (self, author, user):
-		player_list = [author, user]
-		player1 = choice(player_list)
-		if player1 == author:
-			player2 = user
-			return player1, player2
-		else:
-			player2 = author
-			return player1, player2
 			
 	def action_choose (self):
 		action = choice(sample(self.duelist[self.nuels],1))
