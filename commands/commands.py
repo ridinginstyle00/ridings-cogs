@@ -250,7 +250,7 @@ class Commands:
 					await self.bot.say("Here comes dat boi! o shit waddup!:\n")
 		await self.bot.upload("data/commands/Images/imgres.png")
 		
-	@commands.command(name="hh", pass_context=True, no_pm=True)
+	@commands.command(name="?", pass_context=True, no_pm=True)
 	async def honkhonk(self, ctx):
 		"""HONK HONK!!"""
 		author = ctx.message.author
