@@ -82,7 +82,7 @@ class Commands:
 		
 	@commands.command(pass_context=True, no_pm=True)
 	async def bully(self, ctx):
-		"""Caveman Sponge"""
+		"""You Bully!"""
 		author = ctx.message.author
 		with aiohttp.ClientSession() as session:
 			async with session.get("http://i.imgur.com/Aan5eki.jpg") as resp:
@@ -93,7 +93,7 @@ class Commands:
 		
 	@commands.command(pass_context=True, no_pm=True)
 	async def nobully(self, ctx):
-		"""Caveman Sponge"""
+		"""Don't Bully Me B***H!"""
 		author = ctx.message.author
 		with aiohttp.ClientSession() as session:
 			async with session.get("http://i.imgur.com/mTfw7bk.jpg") as resp:
@@ -104,7 +104,7 @@ class Commands:
 		
 	@commands.command(pass_context=True, no_pm=True)
 	async def kys(self, ctx):
-		"""Caveman Sponge"""
+		"""Kill Yourself"""
 		author = ctx.message.author
 		with aiohttp.ClientSession() as session:
 			async with session.get("https://images-ext-2.discordapp.net/eyJ1cmwiOiJodHRwczovL2Nkbi5tZW1lLmFtL2luc3RhbmNlcy81MDB4LzY3NTY4NTg0LmpwZyJ9.oNix5m3kkZkmQK5V8uDlLD_fVe0.jpg") as resp:
@@ -115,7 +115,7 @@ class Commands:
 		
 	@commands.command(pass_context=True, no_pm=True)
 	async def praiselenny(self, ctx):
-		"""Caveman Sponge"""
+		"""Praise The Almighty Lenny!"""
 		author = ctx.message.author
 		with aiohttp.ClientSession() as session:
 			async with session.get("https://images-2.discordapp.net/.eJwFwVEOgyAMANC7cACwmxTxMoQhAxK1hJYvs7vvvUfNcapdVZHOuzFH40Tj0Cw0Ysm6EJUzx95YJ7pMFImpXvkWNuDsa8Vt2Tw6sICABjygtR5gsevboUdrqIbPlEDfkGgOzoHb0P0u6vcH9hAoLA.eXBAkxrHMhUgUqy17NfChORgTOg.png?width=400&height=225") as resp:
@@ -126,7 +126,7 @@ class Commands:
 		
 	@commands.command(pass_context=True, no_pm=True)
 	async def donttouchme(self, ctx):
-		"""Caveman Sponge"""
+		"""Filthy Casual"""
 		author = ctx.message.author
 		with aiohttp.ClientSession() as session:
 			async with session.get("https://images-2.discordapp.net/.eJwNzE1ygjAYANC7sC_wBUiIOxSo0hZ0lFLcMIhMoAX5SYKI07u37wDvqcixUVZKJUTPV5p2rXnRjVeVi27MWamyrmNNmfc1V4uu1XIh8qJqy5vgGhALmdjWbYoJWIABa0CBEtu0ECIEDMMAQyuDe3hvvIg9nA8n3JDCWb-B-e6j2fkZfK_St7qQmUzoQtr9ES9tg2CZP1mEzjIl4QnpNaCwz6d4HGZytIzzOo4pmWzJPNf18bU78cDdEPn_1t5xE6fMjZLD_rF7pQlYWbC_cPias2nS65Kpw9IH2eL7_KXcDenQFvlhiy_nW0NT9btnyu8ftc9YBA.6Vs2kyeZ-HsZADyrwAqldkWs8hg.jpg?width=289&height=299") as resp:
@@ -151,7 +151,7 @@ class Commands:
 			
 	@commands.command(pass_context=True, no_pm=True)
 	async def suckmydonut(self, ctx, user : discord.Member = None):
-		"""Caveman Sponge"""
+		"""Suck My Donuts Beeyatch!"""
 		author = ctx.message.author
 		if not user:
 			with aiohttp.ClientSession() as session:
@@ -194,7 +194,7 @@ class Commands:
 			
 	@commands.command(pass_context=True, no_pm=True)
 	async def knowyourplace(self, ctx):
-		"""Caveman Sponge"""
+		"""Garbage"""
 		author = ctx.message.author
 		with aiohttp.ClientSession() as session:
 			async with session.get("https://media.giphy.com/media/PcNqCl1OsVYre/giphy.gif") as resp:
@@ -205,7 +205,7 @@ class Commands:
 		
 	@commands.command(pass_context=True, no_pm=True)
 	async def honk(self, ctx):
-		"""Caveman Sponge"""
+		"""HONKING MAXIMUM!!!"""
 		author = ctx.message.author
 		with aiohttp.ClientSession() as session:
 			async with session.get("https://images-2.discordapp.net/.eJwFwcENwyAMAMBdGAAHDAVnGwSUICV1hN1X1N1795jvOs1uDtVbdoA2pfJqVpRXGd0O5nH2ck-xlS8oqqUeV_-ogNtoi-gxhERImZwHRy8MKSaPDqP3LmVomeyYb_P7A3heIJU.GyQkra1LBGCzKzEMLjx_uAtFNoc.gif") as resp:
@@ -216,7 +216,7 @@ class Commands:
 		
 	@commands.command(pass_context=True, no_pm=True)
 	async def lenny(self, ctx):
-		"""Caveman Sponge"""
+		"""Lenn-ayyyyy"""
 		author = ctx.message.author
 		with aiohttp.ClientSession() as session:
 			async with session.get("https://cdn.discordapp.com/attachments/105010597954871296/195260231301726210/eJwFwcENwyAMAMBdGABjORjICp0CEUKQIETgPqqqu_fuq96zqV1dIs_aAY660piHXjJmLFmXMUrL8alLp9EhisR09XzLAnTkvQvMhhDREzFgMNZvBi2hZd6CcVB7e7lP0aWe6vcHA6MiZA.JU3c8-28Pi5_ejkRZusCEFRk7kk.gif") as resp:
@@ -227,7 +227,7 @@ class Commands:
 		
 	@commands.command(pass_context=True, no_pm=True)
 	async def urafgt(self, ctx):
-		"""Super Falcon Punch"""
+		"""Faggot"""
 		author = ctx.message.author
 		foo = ["https://media.giphy.com/media/13r5cLwRjhteQE/giphy.gif", "https://cdn.discordapp.com/attachments/112306806658772992/148872883932758017/yyI9LEZ.gif"]
 		with aiohttp.ClientSession() as session:
@@ -248,6 +248,19 @@ class Commands:
 				with open("data/commands/Images/imgres.png", "wb") as f:
 					f.write(test)
 					await self.bot.say("Here comes dat boi! o shit waddup!:\n")
+		await self.bot.upload("data/commands/Images/imgres.png")
+		
+	@commands.command(name="hh", pass_context=True, no_pm=True)
+	async def honkhonk(self, ctx):
+		"""HONK HONK!!"""
+		author = ctx.message.author
+		foo = ["https://images-1.discordapp.net/.eJwFwdsNwyAMAMBdGAAb84qzDSKIREoCwu5X1d179zWfdZvdnKpTdoDjkjrWYUXHKr3ZPka_W5mX2DoeKKqlnk97VcAhY_TkQ8jseWNH4DgFRkwbe4xMOTG4QBhSpOyJ2c63m98fvwIihg.wYlYe9ocgMW1d4rZHRijpSz4amY.png", "https://images-2.discordapp.net/.eJwNyEsOhCAMANC7cABKAT_1NgQYJNGpoXVlvPvMW77H3OMwm9lVL9kASpfMo1hRHqlV25jbUdPVxWY-IammvJ_1qwLoyE3BhxgXCrQSekCa479ndJN3ET0uEArZ1j_m_QF23CB_.JD8gVSo6AAhhomGe4lvXipbEUJQ.gif", "https://images-2.discordapp.net/.eJwFwVEOgyAMANC78C8tLcjwNgQZaFSI1I9l2d333lc996EWVUX6WADWbaR2r3pIu2PJurRWjhz7NnRqJ0SRmOqZLxlgMKBjYmt94PAKhsCEmYNDdMh2Jo-eIdV8MaEx6MlNRGj9ZGx57-mj917U7w_H_yb5.HoJiQNCH4hwN6oxiV7500LchUaU.jpg", "https://images-2.discordapp.net/.eJwNxDsSwiAUAMC7cAD-hrycwNbKMoOEITj8hEej4911i_2Q2RPZyInYxsbYEYer_aADa7fB01BrSN62OKirmVlE687sCw4mOPCLkkprAwpWEJIJWBRIA7CANvr_ynDmR-p7LCkWv-c4S4j8er-J11v30OizBfL9AcrYLAk.3L4mKDt-3jOclodNriENwdKYrjc.jpg", "https://images-1.discordapp.net/.eJwNzUsOgyAQANC7eABhHFDHXU_S8JmADQoBTNM0vXvdvs37DldNwzbE3kvbhPB7c7n6sfVcTeAx5BwSm7K30eVDmN6NiwefvQmQJDVOqNRCSCvBJIBmJNBEEyw0LyC1eJw-cuW9x3yFe4ncSt4T13e-km_mU9ibVOJNT0AFerUw4-q8sew8K4daWjdZheTHVwnD7w8K4zs7.36x-rGndP6Da-no_st9I2G3zmsc.jpg?width=400&height=225", "https://images-2.discordapp.net/.eJwNyVEOgyAMANC7cADaUlDqbQgSdNFBoPsyu_v2ft9jPuMymzlU-9wA9nPmNnY7tY1Ui62t1aukfk6b2w1JNeXjLm-dQCgY2LH3q7BEIQckCwuu3rG4yA6RgDxj-GcMi6B99Wq-P706Im8.t2yqaPghj2P0l1pwUGnYMkqi-14.jpg?width=314&height=300", "https://images-2.discordapp.net/.eJwFwdERgyAMANBdGIAQsEKcoGtwyKFXJRyJX73u3ve-5pmX2cyhOmQD2E8pPHcryjO3ahtzu2oep9jCN2TVXI67dhVAR-4VfFiWSIESoQekNaRECdfofEKPEd7cP3b0Zn5_ncMhag.1jyj7Zmf2xk99HnRRPbxTFWZXQ0.png?width=400&height=112", "https://images-1.discordapp.net/.eJwFwVEOgyAMANC7cABqLRuttyFI0EQtod3XsrvvvW_4zCts4XAftgHsp1WdezTXWXqLXbVfrYzTYtUbinupx90eN8BFlhetlFIWEhZcAeVNnFgyM4pkQoKMFMfTw-8PeNsghg.3a2sUHTd_0-dBQR0qDH7wX6cpic.png?width=251&height=300"]
+		with aiohttp.ClientSession() as session:
+			async with session.get("{}".format(random.choice(foo))) as resp:
+				test = await resp.read()
+				with open("data/commands/Images/imgres.png", "wb") as f:
+					f.write(test)
+					await self.bot.say("HONK HONK!:\n")
 		await self.bot.upload("data/commands/Images/imgres.png")
 
 	@commands.command(pass_context=True, no_pm=True)
