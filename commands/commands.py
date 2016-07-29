@@ -10,6 +10,10 @@ import os
 import time
 import logging
 import aiohttp
+<<<<<<< HEAD
+import re
+=======
+>>>>>>> refs/remotes/origin/master
 
 class Commands:
 
@@ -296,6 +300,20 @@ class Commands:
 			await self.bot.say("{} : {} needs your help!\nReasoning : **{}**".format(roles, author.mention, message))
 		else:
 			await self.bot.say("{} : {} needs your help!\nNext time, add your message to the end of the command, so that the issue is stated there as well\n\nExmple: `alertmods Message goes here`\n\n```THAT DOES NOT MEAN, TO CALL THE COMMAND AGAIN WITH THE MESSAGE! ONLY A REMINDER!\n\nIF YOU CALL THIS COMMAND WITH THE MESSAGE RIGHT AFTER THIS MESSAGE, THEN YOU WILL BE PUNISHED!!```".format(roles, author.mention))
+<<<<<<< HEAD
+						
+	@commands.command(name="igg",pass_context=True, no_pm=True)
+	async def _igg(self, ctx, *, game : str):
+		"""Retrieves a game from igg-games.com based on the query"""
+		try:
+			async with aiohttp.get('http://igg-games.com/?s={}'.format(game)) as resp:
+				test = await resp.content.read()
+				game_find = re.findall("<a class=\"post-thumb \" id=\"thumb-([^`]*?)\" href=\"([^`]*?)\" title=\"","{}".format(test))
+				await self.bot.say("Here is your link: {}".format(game_find[0][1]))
+		except IndexError:
+			await self.bot.say("Your search yielded no results.")
+=======
+>>>>>>> refs/remotes/origin/master
 
 def check_folders():
     if not os.path.exists("data/commands"):
