@@ -293,7 +293,7 @@ class Commands:
 	async def _alertmods(self, ctx, *, message = "", user : discord.Member = None):
 		"""Get help"""
 		author = ctx.message.author
-		roles = "<@&190315908562944001> <@&187073925442830336> <@&189313142612951041>"
+		roles = "<@&172353788773007360> <@&172353738214735872> <@&206490227764625409> <@&203216761468747777> <@&184372960587415552>"
 		if message:
 			await self.bot.say("{} : {} needs your help!\nReasoning : **{}**".format(roles, author.mention, message))
 		else:
