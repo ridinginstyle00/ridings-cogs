@@ -305,8 +305,9 @@ class Commands:
 		try:
 			async with aiohttp.get('http://igg-games.com/?s={}'.format(game)) as resp:
 				test = await resp.content.read()
-				game_find = re.findall("<a class=\"post-thumb \" id=\"thumb-([^`]*?)\" href=\"([^`]*?)\" title=\"","{}".format(test))
-				await self.bot.say("Here is your link: {}".format(game_find[0][1]))
+				gameregex = re.compile("  <a href=\"([^`]*?)\" rel=\"bookmark\" title=\"Permanent Link:")
+				game_find = gameregex.findall("{}".format(test))
+				await self.bot.say("Here is your link: {}".format(game_find[0]))
 		except IndexError:
 			await self.bot.say("Your search yielded no results.")
 
