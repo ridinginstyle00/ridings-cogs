@@ -34,9 +34,9 @@ class Commands:
 		"""IGG Black screen/Not Responding"""
 		author = ctx.message.author
 		if not user:
-			await self.bot.say("**{} asks that you please follow these instructions:**\n \n http://igg-games.com/black-screen-cant-start-games.html \n \nCheck the list, if you dont have the program, install it. When you finish checking the list, if you installed even **ONE** of the programs, restart your computer".format(author.mention))
+			await self.bot.say("**{} asks that you please follow these instructions:**\n \n http://igg-games.com/black-screen-cant-start-games.html \n \nCheck the list, if you dont have the program, install it. When you finish checking the list, if you installed even **ONE** of the programs, restart your computer\n\n\nAfter you install these drivers, restart your computer! (<-- Just a reminder!)\n\nSometimes your game still won't work, if that occurs, stick to the instructions here:\nhttp://freewisdoms.com/download-dll-files-commonly-used-by-games/".format(author.mention))
 		else:
-			await self.bot.say("**{} asks {} that you please follow these instructions:**\n \n http://igg-games.com/black-screen-cant-start-games.html \n \nCheck the list, if you dont have the program, install it. When you finish checking the list, if you installed even **ONE** of the programs, restart your computer".format(author.mention, user.mention))
+			await self.bot.say("**{} asks {} that you please follow these instructions:**\n \n http://igg-games.com/black-screen-cant-start-games.html \n \nCheck the list, if you dont have the program, install it. When you finish checking the list, if you installed even **ONE** of the programs, restart your computer\n\n\nAfter you install these drivers, restart your computer! (<-- Just a reminder!)\n\nSometimes your game still won't work, if that occurs, stick to the instructions here:\nhttp://freewisdoms.com/download-dll-files-commonly-used-by-games/".format(author.mention, user.mention))
 
 	@commands.command(pass_context=True, no_pm=True)
 	async def sfp(self, ctx, user: discord.Member=None):
