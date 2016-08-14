@@ -131,7 +131,7 @@ class Levels:
     async def creators(self, ctx):
         """Shows the creators of the Rank cog!"""
         user = ctx.message.author
-        await self.bot.say("```There were hard efforts in the making of this cog.\n \n It took LOTS of time to make a ranking system for RED, that could replace MEE6's ranking system \n \n Here is the list of creators for this cog: \n \n funnyman \n \n Ridinginstyle00 \n \n We appreciate the help from others that helped us!!```")
+        await self.bot.say("```There were hard efforts in the making of this cog.\n \n It took LOTS of time to make a ranking system for RED, that could replace MEE6's ranking system \n \n Here is the list of creators for this cog: \n \n funnyman2213 \n \n Ridinginstyle00 \n \n We appreciate the help from others that helped us!!```")
 
     @commands.group(name="cooldown", pass_context=True)
     async def _cooldown(self, ctx):
