@@ -4,41 +4,65 @@ from .utils import checks
 from .utils.dataIO import dataIO
 from __main__ import send_cmd_help
 from __main__ import settings
+from datetime import datetime
 from random import choice
 from random import sample
+from copy import deepcopy
+from collections import namedtuple, defaultdict
 import os
 import logging
 import aiohttp
 import asyncio
 import time
-import copy
+from time import sleep
 
+default_settings = {"PAYDAY_TIME" : 5}
 
 client = discord.Client()
 
 class Duels:
 
 	def __init__(self, bot):
+		global globvar
 		self.bot = bot
 		self.duelist = dataIO.load_json("data/duels/duelist.json")
 		self.nuels = "duels"
 		self.wlt = dataIO.load_json("data/duels/account.json")
+		self.timer_board = dataIO.load_json("data/duels/timer.json")
+
+		
 		
 	@commands.group(name="duels", pass_context=True)
 	async def _duels(self, ctx):
 		"""Duel with another player!!"""
 		if ctx.invoked_subcommand is None:
 			await send_cmd_help(ctx)
-	
+
+	@commands.command(name="tjoin", pass_context=True)
+	@checks.admin_or_permissions(manage_server=True)
+	async def tjoin(self, ctx):
+		"""Add server to timer list"""
+		author = ctx.message.author
+		server = author.server	
+		if server.id not in self.timer_board:
+			self.timer_board[server.id] = {"time": 0}
+			dataIO.save_json("data/duels/timer.json", self.timer_board)
+			await self.bot.say("**{}** has been added to the timer_board!".format(server.name))
+		else:
+			await self.bot.say("**{}** has already been added to the timer_board!".format(server.name))
 	@commands.command(name="duel", pass_context=True, no_pm=True)
 	async def _duel(self, ctx, user: discord.Member=None, otheruser : discord.Member=None):
 		"""Duel another player"""
+		author = ctx.message.author
+		server = author.server
 		if not user or not otheruser:
 			await self.bot.reply("Please mention two users that you want to see a duel of!")
 		elif user.id == otheruser.id:
 			await self.bot.reply("Silly, you can't see a duel of someone against themselves!")
 		else:
-						try:
+			if self.timer_board[server.id]["time"] == 0:
+							self.timer_board[server.id]["time"] += 1
+							dataIO.save_json("data/duels/timer.json", self.timer_board)
 							nick_player1 = user.name
 							nick_player2 = otheruser.name
 							action = self.duelist[self.nuels]
@@ -160,11 +184,11 @@ class Duels:
 									await self.bot.say("{} gained +1 LOSE!!".format(losing_player))
 									self.wlt[player1_id]["Losses"] += 1
 									dataIO.save_json("data/duels/account.json", self.wlt)
-							
-						except IndexError:
-							await self.bot.say("Uh oh! it seems your list is empty! Add options with %cduels add" % settings.prefixes[0])
-						except KeyError:
-							await self.bot.say("Uh oh! it seems your list is empty! Add options with %cduels add" % settings.prefixes[0])
+							self.timer_board[server.id]["time"] -= 1
+							dataIO.save_json("data/duels/timer.json", self.timer_board)	
+			else:
+				await self.bot.say("**A duel is already running!\nPlease wait for the current one to finish!**")				
+					
 	@_duels.command(pass_context=True, no_pm=True)
 	@checks.admin_or_permissions(manage_server=True)
 	async def add (self, ctx, Duel : str):
@@ -238,6 +262,20 @@ class Duels:
 			await self.bot.say("Duel list has been reset")
 		else:
 			await self.bot.say("I can't delete a list that's already empty")
+
+	@commands.command(pass_context=True)
+	async def dueltime(self, ctx, seconds : int):
+		"""Seconds between each duel use"""
+		server = ctx.message.server
+		self.wlt[server.id]["DUEL_TIME"] = seconds
+		await self.bot.say("Cooldown is now set to " + str(seconds) + " seconds.")
+		dataIO.save_json("data/duels/settings.json", self.wlt)
+
+	@commands.command(pass_context=True)
+	async def dts(self, ctx):
+		server = ctx.message.server
+		"""Shows the current duel Cooldown time"""
+		await self.bot.say("The current Cooldown for `duel` is set to   **{}**    seconds.".format(self.wlt[server.id]["PAYDAY_TIME"]))
 			
 	def action_choose (self):
 		action = choice(sample(self.duelist[self.nuels],1))
@@ -275,6 +313,26 @@ class Duels:
 	def get_ties(self, id):
 		if self.check_joined(id):
 			return self.wlt[id]["Ties"]
+
+	def display_time(self, seconds, granularity=2): # What would I ever do without stackoverflow?
+		intervals = (                               # Source: http://stackoverflow.com/a/24542445
+			('weeks', 604800),  # 60 * 60 * 24 * 7
+			('days', 86400),    # 60 * 60 * 24
+			('hours', 3600),    # 60 * 60
+			('minutes', 60),
+			('seconds', 1),
+			)
+
+		result = []
+
+		for name, count in intervals:
+			value = seconds // count
+			if value:
+				seconds -= value * count
+				if value == 1:
+					name = name.rstrip('s')
+				result.append("{} {}".format(value, name))
+		return ', '.join(result[:granularity])
 		
 def check_folders():
     if not os.path.exists("data/duels"):
@@ -286,10 +344,14 @@ def check_files():
     if not dataIO.is_valid_json(fp):
         print("Creating duelist.json...")
         dataIO.save_json(fp, {})
-    wlt = "data/duels/account.json"
-    if not dataIO.is_valid_json(wlt):
+    acc = "data/duels/account.json"
+    if not dataIO.is_valid_json(acc):
         print("creating account.json...")
-        dataIO.save_json(wlt, {})
+        dataIO.save_json(acc, {})
+    fp = "data/duels/timer.json"
+    if not dataIO.is_valid_json(fp):
+	    print("Creating timer.json...")
+	    dataIO.save_json(fp, {})
 
 def setup(bot):
     global logger
