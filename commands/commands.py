@@ -114,6 +114,29 @@ class Commands:
 				with open("data/commands/Images/imgres.png", "wb") as f:
 					f.write(test)
 		await self.bot.upload("data/commands/Images/imgres.png")
+
+	@commands.command(pass_context=True, no_pm=True)
+	@checks.admin_or_permissions(manage_server=True)
+	async def slash(self, ctx, user: discord.Member = None):
+		"""Slash a fool!"""
+		author = ctx.message.author
+		if user:
+			with aiohttp.ClientSession() as session:
+				async with session.get("https://cdn.discordapp.com/attachments/175246808967151616/217342324919894017/7e469f8443630de4f8cedb1c87b161d3.jpg") as resp:
+					test = await resp.read()
+					with open("data/commands/Images/imgres.png", "wb") as f:
+						f.write(test)
+			await self.bot.say("{} just slashed {}!\nFOOL!".format(author.mention, user.mention))
+			await self.bot.upload("data/commands/Images/imgres.png")
+		else:
+			with aiohttp.ClientSession() as session:
+				async with session.get("https://cdn.discordapp.com/attachments/175246808967151616/217342324919894017/7e469f8443630de4f8cedb1c87b161d3.jpg") as resp:
+					test = await resp.read()
+					with open("data/commands/Images/imgres.png", "wb") as f:
+						f.write(test)
+			await self.bot.say("{} just slashed someone. Who knows, he forgot the darn mention.".format(author.mention))
+			await self.bot.upload("data/commands/Images/imgres.png")
+			
 		
 	@commands.command(pass_context=True, no_pm=True)
 	async def praiselenny(self, ctx):
