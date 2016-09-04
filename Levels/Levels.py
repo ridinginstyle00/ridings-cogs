@@ -171,7 +171,7 @@ class Levels:
                 await self.bot.say("The leaderboard is too big to be displayed. Try with a lower <top> parameter.")
         else:
             await self.bot.say("No one has joined the rank system.")
-			
+
     async def gain_xp(self, message):
         user = message.author
         id = user.id
@@ -186,7 +186,7 @@ class Levels:
                     self.leader_board[user.id]["rank"] += 1
                     self.leader_board[user.id]["XP"] = 0
                     msg = '{} **has leveled up and is now level {}!!!\n HURRAY!!**'
-                    msg = msg.format(message.author.mention, self.leader_board[user.id]["rank"])
+                    msg = msg.format(message.author.display_name, self.leader_board[user.id]["rank"])
                     await self.bot.send_message(message.channel, msg)
                     fileIO("data/levels/leader_board.json", "save", self.leader_board)
             else:
@@ -222,7 +222,7 @@ class Levels:
     def display_time(self, seconds, granularity=2):  # What would I ever do without stackoverflow?
         intervals = (  # Source: http://stackoverflow.com/a/24542445
             ('weeks', 604800),  # 60 * 60 * 24 * 7
-            ('days', 86400),  # 60 * 60 * 24
+            ('days', 86400),  # 60 * 60 * 24	
             ('hours', 3600),  # 60 * 60
             ('minutes', 60),
             ('seconds', 1),
