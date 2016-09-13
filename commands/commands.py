@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from .utils import checks
 from .utils.dataIO import fileIO
+from .utils.dataIO import dataIO
 from __main__ import send_cmd_help
 import random
 from random import choice
@@ -19,6 +20,8 @@ class Commands:
 		self.bot = bot
 		self.commands = fileIO("data/commands/commands.json", "load")
 		self.fgt = "urafgt"
+		self.rolelist = "duels"
+		self.roles = dataIO.load_json("data/commands/roles.json")
 	
 	@commands.command(pass_context=True, no_pm=True)
 	async def sc(self, ctx, user : discord.Member=None):
@@ -28,15 +31,6 @@ class Commands:
 			await self.bot.say("{} says to screenshot, you must do this: \n**1)**   Press Prnt Scrn (Windows Key + Prnt Scrn for Windows 8/8.1) on your keyboard.\n**2)**  Click the chatbox.\n**3)**  Then paste. Like you're copying and pasting text (CTRL + V).".format(author.mention))	
 		else:
 			await self.bot.say("{} tells {} to screenshot, you must do this: \n**1)**   Press Prnt Scrn (Windows Key + Prnt Scrn for Windows 8/8.1) on your keyboard.\n**2)**  Click the chatbox.\n**3)**  Then paste. Like you're copying and pasting text (CTRL + V).".format(author.mention, user.mention))	
-
-	@commands.command(pass_context=True, no_pm=True)
-	async def black(self, ctx, user :discord.Member=None):
-		"""IGG Black screen/Not Responding"""
-		author = ctx.message.author
-		if not user:
-			await self.bot.say("**{} asks that you please follow these instructions:**\n \n http://igg-games.com/black-screen-cant-start-games.html \n \nCheck the list, if you dont have the program, install it. When you finish checking the list, if you installed even **ONE** of the programs, restart your computer\n\n\nAfter you install these drivers, restart your computer! (<-- Just a reminder!)\n\nSometimes your game still won't work, if that occurs, stick to the instructions here:\nhttp://freewisdoms.com/download-dll-files-commonly-used-by-games/".format(author.mention))
-		else:
-			await self.bot.say("**{} asks {} that you please follow these instructions:**\n \n http://igg-games.com/black-screen-cant-start-games.html \n \nCheck the list, if you dont have the program, install it. When you finish checking the list, if you installed even **ONE** of the programs, restart your computer\n\n\nAfter you install these drivers, restart your computer! (<-- Just a reminder!)\n\nSometimes your game still won't work, if that occurs, stick to the instructions here:\nhttp://freewisdoms.com/download-dll-files-commonly-used-by-games/".format(author.mention, user.mention))
 
 	@commands.command(pass_context=True, no_pm=True)
 	async def sfp(self, ctx, user: discord.Member=None):
@@ -312,13 +306,30 @@ class Commands:
 					f.write(test)
 		await self.bot.upload("data/commands/Images/pussy.gif")
 		
+	@commands.command(name="alertadd", pass_context=True, no_pm=True)
+	@checks.admin_or_permissions(manage_server=True)
+	async def _alertadd(self, ctx, *, input : list):
+		"""Add roles to 'alertmods'"""
+		author = ctx.message.author
+		server = author.server
+		roles = self.roles
+		await self.bot.say("List of roles added:\n\n{}".format(input))
+		if self.rolelist not in self.roles:
+			self.roles[self.rolelist] = []
+			dataIO.save_json("data/commands/roles.json", self.roles)
+			self.roles[self.rolelist].append(input)
+			dataIO.save_json("data/commands/roles.json", self.roles)
+		else:
+			self.roles[self.rolelist].append(input)
+			dataIO.save_json("data/commands/roles.json", self.roles)
+		
+		
 	@commands.command(name="alertmods", pass_context=True, no_pm=True)
 	async def _alertmods(self, ctx, *, message = "", user : discord.Member = None):
 		"""Get help"""
 		author = ctx.message.author
-		roles = "<@&172353788773007360> <@&172353738214735872> <@&206490227764625409> <@&203216761468747777> <@&184372960587415552>"
 		if message:
-			await self.bot.say("{} : {} needs your help!\nReasoning : **{}**".format(roles, author.mention, message))
+			await self.bot.say("{} : {} needs your help!\nReasoning : **{}**".format(self.roles["roles"], author.mention, message))
 		else:
 			await self.bot.say("{} : {} needs your help!\nNext time, add your message to the end of the command, so that the issue is stated there as well\n\nExample: `alertmods Message goes here`\n\n```THAT DOES NOT MEAN, TO CALL THE COMMAND AGAIN WITH THE MESSAGE! ONLY A REMINDER!\n\nIF YOU CALL THIS COMMAND WITH THE MESSAGE RIGHT AFTER THIS MESSAGE, THEN YOU WILL BE PUNISHED!!```".format(roles, author.mention))
 						
@@ -347,6 +358,10 @@ def check_files():
     if not fileIO(fp, "check"):
         print("Creating commands.json...")
         fileIO(fp, "save", {})
+    fp = "data/commands/roles.json"
+    if not dataIO.is_valid_json(fp):
+        print("Creating roles.json...")
+        dataIO.save_json(fp, {})
 
 def setup(bot):
     global logger

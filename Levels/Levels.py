@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from .utils import checks
-from .utils.dataIO import fileIO
+from .utils.dataIO import dataIO
 from __main__ import send_cmd_help
 from random import randint
 import os
@@ -14,7 +14,7 @@ class Levels:
     def __init__(self, bot):
         self.bot = bot
         self.cooldown = 60
-        self.leader_board = fileIO("data/levels/leader_board.json", "load")
+        self.leader_board = dataIO.load_json("data/levels/leader_board.json")
         self.gettingxp = {}
         self.xp_gaining_channels = []
 
@@ -31,7 +31,7 @@ class Levels:
             user = ctx.message.author	
             if user.id not in self.leader_board:
                 self.leader_board[user.id] = {"name": user.name, "rank": 0, "XP": 0}
-                fileIO("data/levels/leader_board.json", "save", self.leader_board)
+                dataIO.save_json("data/levels/leader_board.json", self.leader_board)
                 await self.bot.say("{} has joined the Levelboard!".format(user.mention))
             else:
                 await self.bot.say("{} has already joined and is rank {}".format(user.mention, str(self.get_rank(user.id))))
@@ -45,14 +45,14 @@ class Levels:
         if not user:
             if user.id not in self.leader_board:
                 self.leader_board[user.id] = {"name": user.name, "rank": 0, "XP": 0}
-                fileIO("data/levels/leader_board.json", "save", self.leader_board)
+                dataIO.save_json("data/levels/leader_board.json", self.leader_board)
                 await self.bot.say("{} has joined the Levelboard!".format(user.mention))
             else:
-                    await self.bot.say("{} has already joined and is rank SHUDDUP STUPID BOT {}".format(user.mention, str(self.get_rank(user.id))))
+                    await self.bot.say("{} has already joined and is rank {}".format(user.mention, str(self.get_rank(user.id))))
         else:
             if user.id not in self.leader_board:
                 self.leader_board[user.id] = {"name": user.name, "rank": 0, "XP": 0}
-                fileIO("data/levels/leader_board.json", "save", self.leader_board)
+                dataIO.save_json("data/levels/leader_board.json", self.leader_board)
                 await self.bot.say("{} has joined the Levelboard!".format(user.mention))
             else:
                 await self.bot.say("{} has already joined and is rank {}".format(user.mention, str(self.get_rank(user.id))))			
@@ -63,7 +63,7 @@ class Levels:
         """Set Rank and EXP"""
         if user.id in self.leader_board:
             self.leader_board[user.id] = {"name": user.name, "rank": rank, "XP": xp}
-            fileIO("data/levels/leader_board.json", "save", self.leader_board)
+            dataIO.save_json("data/levels/leader_board.json", self.leader_board)
             await self.bot.say("{}'s current stats are now: **Rank: {} XP {}/{}**".format(user.mention, self.get_rank(user.id),
                                                                          self.get_xp(user.id),
                                                                          self.get_level_xp(int(self.leader_board[user.id]["rank"]))))
@@ -76,7 +76,7 @@ class Levels:
         user = ctx.message.author
         if user.id in self.leader_board:
             del self.leader_board[user.id]
-            fileIO("data/levels/leader_board.json", "save", self.leader_board)
+            dataIO.save_json("data/levels/leader_board.json", self.leader_board)
             await self.bot.say("{} has left in the Levelboard!".format(user.mention))
         else:
             await self.bot.say("{} has not yet joined in the Levelboard! Do `{}rank join`!".format(user.mention, ctx.prefix))
@@ -87,7 +87,7 @@ class Levels:
         """Forces another person to leave"""
         if user.id in self.leader_board:
             del self.leader_board[user.id]
-            fileIO("data/levels/leader_board.json", "save", self.leader_board)
+            dataIO.save_json("data/levels/leader_board.json",  self.leader_board)
             await self.bot.say("{} has been removed from the Levelboard!".format(user.mention))
         else:
             await self.bot.say("{} has not yet joined in the Levelboard! Do `{}rank joino` to force them to join!".format(user.mention, ctx.prefix))
@@ -248,9 +248,9 @@ def check_folders():
 
 def check_files():
     fp = "data/levels/leader_board.json"
-    if not fileIO(fp, "check"):
-        print("Creating empty Leader board...")
-        fileIO(fp, "save", {})
+    if not dataIO.is_valid_json(fp):
+        print("Creating leader_board.json...")
+        dataIO.save_json(fp, {})
 
 
 def setup(bot):

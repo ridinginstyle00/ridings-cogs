@@ -16,8 +16,6 @@ import asyncio
 import time
 from time import sleep
 
-default_settings = {"PAYDAY_TIME" : 5}
-
 client = discord.Client()
 
 class Duels:
@@ -47,7 +45,7 @@ class Duels:
 		if server.id not in self.timer_board:
 			self.timer_board[server.id] = {"time": 0}
 			dataIO.save_json("data/duels/timer.json", self.timer_board)
-			await self.bot.say("**{}** has been added to the timer_board!".format(server.name))
+			await self.bot.say("**{}** has been added to the timer board!".format(server.name))
 		else:
 			await self.bot.say("**{}** has already been added to the timer_board!".format(server.name))
 	@commands.command(name="duel", pass_context=True, no_pm=True)
@@ -60,7 +58,8 @@ class Duels:
 		elif user.id == otheruser.id:
 			await self.bot.reply("Silly, you can't see a duel of someone against themselves!")
 		else:
-			if self.timer_board[server.id]["time"] == 0:
+			if server.id in self.timer_board:
+				if self.timer_board[server.id]["time"] == 0:
 							self.timer_board[server.id]["time"] += 1
 							dataIO.save_json("data/duels/timer.json", self.timer_board)
 							nick_player1 = user.name
@@ -113,6 +112,7 @@ class Duels:
 									await self.bot.say("{} has not yet entered the duel tournament!".format(losing_player))
 									await asyncio.sleep(.5)
 									await self.bot.say("{} has joined the duel tournament, currently changing settings!".format(losing_player))
+									await self.bot.say("{} gained +1 LOSE!!".format(losing_player))
 									self.wlt[player2_id]["Losses"] += 1
 									dataIO.save_json("data/duels/account.json", self.wlt)
 								else:
@@ -186,22 +186,23 @@ class Duels:
 									dataIO.save_json("data/duels/account.json", self.wlt)
 							self.timer_board[server.id]["time"] -= 1
 							dataIO.save_json("data/duels/timer.json", self.timer_board)	
+				else:
+					await self.bot.say("**A duel is already running!\nPlease wait for the current one to finish!**")				
 			else:
-				await self.bot.say("**A duel is already running!\nPlease wait for the current one to finish!**")				
-					
+				await self.bot.say("Please do {}tjoin to be added to the timer board!".format(ctx.prefix))
 	@_duels.command(pass_context=True, no_pm=True)
 	@checks.admin_or_permissions(manage_server=True)
-	async def add (self, ctx, Duel : str):
+	async def add (self, ctx, *, Duel : str):
 		"""Adds a duel to the list"""
 		if self.nuels not in self.duelist:
 			self.duelist[self.nuels] = []
 			dataIO.save_json("data/duels/duelist.json", self.duelist)
 		if Duel in self.duelist[self.nuels]:
-			await self.bot.say("Uh oh. It seems {} has already been added to the list.".format(Duel))
+			await self.bot.say("Uh oh. It seems `{}` has already been added to the list.".format(Duel))
 		else:
 			self.duelist[self.nuels].append(Duel)
 			dataIO.save_json("data/duels/duelist.json", self.duelist)
-			await self.bot.say("{} has been added to the duel list!".format(Duel))
+			await self.bot.say("`{}` has been added to the duel list!".format(Duel))
 			
 	@_duels.command(pass_context=True, no_pm=True)
 	async def join(self, ctx, user: discord.Member=None):
@@ -261,22 +262,21 @@ class Duels:
 			dataIO.save_json("data/duels/duelist.json", self.duelist)
 			await self.bot.say("Duel list has been reset")
 		else:
-			await self.bot.say("I can't delete a list that's already empty")
-
-	@commands.command(pass_context=True)
-	async def dueltime(self, ctx, seconds : int):
-		"""Seconds between each duel use"""
-		server = ctx.message.server
-		self.wlt[server.id]["DUEL_TIME"] = seconds
-		await self.bot.say("Cooldown is now set to " + str(seconds) + " seconds.")
-		dataIO.save_json("data/duels/settings.json", self.wlt)
-
-	@commands.command(pass_context=True)
-	async def dts(self, ctx):
-		server = ctx.message.server
-		"""Shows the current duel Cooldown time"""
-		await self.bot.say("The current Cooldown for `duel` is set to   **{}**    seconds.".format(self.wlt[server.id]["PAYDAY_TIME"]))
-			
+			await self.bot.say("I can't delete a list that's already empty!")
+		
+	@_duels.command(pass_context=True)
+	async def timerreset(self, ctx):
+		"""Reset the duel timer, only use if the system hangs or breaks!"""
+		author = ctx.message.author
+		server = author.server
+		if server.id in self.timer_board:
+			if self.timer_board[server.id]["time"] == 0:
+				await self.bot.say("There isn't a timer right now (no duel running).")
+			else:
+				self.timer_board[server.id]["time"] = 0
+				await self.bot.say("Timer has been reset!")
+		else:
+			await self.bot.say("Please do {}tjoin to be added to the timer board!".format(ctx.prefix))
 	def action_choose (self):
 		action = choice(sample(self.duelist[self.nuels],1))
 		return action
