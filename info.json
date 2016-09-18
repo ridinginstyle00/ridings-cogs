@@ -2,6 +2,6 @@
     "AUTHOR" : "Ridinginstyle",
     "INSTALL_MSG" : "Ridinginstyle00:\n\n**Some custom made cogs used for Red Bot**\n\n",
     "NAME" : "ridings-cogs",
-    "SHORT": "Some useful commands. You got duels, commands, and Levels.",
-    "DESCRIPTION" : "Ridinginstyle00:\n\nThanks for installing, this Repo includes some useful cogs that I use on my server quite often! It includes the following cogs: commands, duels, Levels. Commands is just a cog with a bunch of fun little commands. Please note that every time you use one of the picture commands in the commands cog, it downloads the photo each time (<-- This may be updated at some point to no do so)."
+    "SHORT": "Some useful commands. You got duels, commands, and Levels, and a dismissal cog!.",
+    "DESCRIPTION" : "Ridinginstyle00:\n\nThanks for installing, this Repo includes some useful cogs that I use on my server quite often! It includes the following cogs: commands, duels, Levels. Commands is just a cog with a bunch of fun little commands. Please note that every time you use one of the picture commands in the commands cog, it downloads the photo each time (<-- This may be updated at some point to not do so).\n\nIf you haven't already, join this fabulous server where I managed to get most of my work done: https://discord.me/Red-DiscordBot \n This is also the server of the person who made Red herself!"
 }
