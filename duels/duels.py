@@ -25,6 +25,8 @@ class Duels:
 		self.bot = bot
 		self.duelist = dataIO.load_json("data/duels/duelist.json")
 		self.nuels = "duels"
+		self.counter = "Number:"
+		self.setter = "Max:"
 		self.wlt = dataIO.load_json("data/duels/account.json")
 		self.timer_board = dataIO.load_json("data/duels/timer.json")
 
@@ -48,6 +50,7 @@ class Duels:
 			await self.bot.say("**{}** has been added to the timer board!".format(server.name))
 		else:
 			await self.bot.say("**{}** has already been added to the timer_board!".format(server.name))
+			
 	@commands.command(name="duel", pass_context=True, no_pm=True)
 	async def _duel(self, ctx, user: discord.Member=None, otheruser : discord.Member=None):
 		"""Duel another player"""
@@ -190,19 +193,56 @@ class Duels:
 					await self.bot.say("**A duel is already running!\nPlease wait for the current one to finish!**")				
 			else:
 				await self.bot.say("Please do {}tjoin to be added to the timer board!".format(ctx.prefix))
+				
 	@_duels.command(pass_context=True, no_pm=True)
 	@checks.admin_or_permissions(manage_server=True)
 	async def add (self, ctx, *, Duel : str):
 		"""Adds a duel to the list"""
 		if self.nuels not in self.duelist:
 			self.duelist[self.nuels] = []
+			self.duelist[self.setter] = 100
+			await self.bot.say("Setter hasn't been added yet. Setter has been auto set to: **{}**".format(self.duelist[self.setter]))
 			dataIO.save_json("data/duels/duelist.json", self.duelist)
 		if Duel in self.duelist[self.nuels]:
 			await self.bot.say("Uh oh. It seems `{}` has already been added to the list.".format(Duel))
 		else:
-			self.duelist[self.nuels].append(Duel)
-			dataIO.save_json("data/duels/duelist.json", self.duelist)
-			await self.bot.say("`{}` has been added to the duel list!".format(Duel))
+			if self.counter not in self.duelist:
+				self.duelist[self.counter] = 0
+			if self.setter not in self.duelist:
+				self.duelist[self.setter] = 100
+				dataIO.save_json("data/duels/duelist.json", self.duelist)
+				await self.bot.say("Setter hasn't been added yet. Setter has been auto set to: **{}**".format(self.duelist[self.setter]))
+			if self.duelist[self.counter] < self.duelist[self.setter]:
+				self.duelist[self.nuels].append(Duel)
+				self.duelist[self.counter] += 1
+				dataIO.save_json("data/duels/duelist.json", self.duelist)
+				await self.bot.say("`{}` has been added to the duel list!".format(Duel))
+			else:
+				await self.bot.say("The maximum amount of duel actions has been added (**{}**). Please contact someone with the `Manage Server` permission to change this.".format(self.duelist[self.setter]))
+				
+	@_duels.command(name="set", pass_context=True, no_pm=True)
+	@checks.admin_or_permissions(manage_server=True)
+	async def _set(self, ctx, setter : int=None):
+		"""Sets the maximum amount of duels that can be added"""
+		if not setter:
+			if self.setter not in self.duelist:
+				self.duelist[self.setter] = 100
+				await self.bot.say("Setter is currently set to: **{}**".format(self.duelist[self.setter]))
+		else:
+			if self.setter not in self.duelist:
+				self.duelist[self.setter] = 100
+				await self.bot.say("Setter hasn't been added yet. Setter has been auto set to: **{}**".format(self.duelist[self.setter]))
+				self.duelist[self.setter] = setter
+				dataIO.save_json("data/duels/duelist.json", self.duelist)
+				await self.bot.say("The Duel List Setter has been set to allow a maximum of **{}** items.".format(setter))
+				#Save function here that isn't added yet
+			else:
+				self.duelist[self.setter] = setter
+				dataIO.save_json("data/duels/duelist.json", self.duelist)
+				await self.bot.say("The Duel List Setter has been set to allow a maximum of **{}** items.".format(setter))
+				#Save function here that isn't added yet
+			if not setter:
+				await self.bot.say("Setter is currently set to: **{}**".format(self.duelist[self.setter]))
 			
 	@_duels.command(pass_context=True, no_pm=True)
 	async def join(self, ctx, user: discord.Member=None):
@@ -239,9 +279,23 @@ class Duels:
 	@_duels.command(pass_context=True, no_pm=True)
 	async def show (self, ctx):
 		"""Shows list of available duels"""
-		s = "\n"
-		y = s.join(self.duelist[self.nuels])
-		await self.bot.say("List of available duel things:\n{}".format(y))
+		if self.nuels not in self.duelist:
+			await self.bot.say("Please do `{}duels add (action)` to start viewing duels!".format(ctx.prefix))
+		else:
+			strbuffer = self.duel_show().split("\n")
+			mess = ""
+			if self.duelist[self.counter] == self.duelist[self.setter]:
+				await self.bot.say("**{}** out of **{}** spaces used!    **MAXED OUT!!**".format(len(self.duelist[self.nuels]), self.duelist[self.setter]))
+			else:
+				await self.bot.say("**{}** out of **{}** spaces used!".format(len(self.duelist[self.nuels]), self.duelist[self.setter]))
+			for line in strbuffer:
+				if len(mess) + len(line) + 1 < 300:
+					mess += "\n" + line
+				else:
+					await self.bot.say(mess)
+					mess = ""
+			if mess != "":
+				await self.bot.say(mess)
 		
 	@_duels.command(pass_context=True, no_pm=True)
 	async def remove (self, ctx, Duel : str):
@@ -258,7 +312,9 @@ class Duels:
 	async def reset (self, ctx):
 		"""For when you have waaay too many duels"""
 		if len(self.duelist[self.nuels]) > 0:
+			self.duelist[self.counter] = 0
 			self.duelist[self.nuels] = []
+			dataIO.save_json("data/duels/duelist.json", self.duelist)
 			dataIO.save_json("data/duels/duelist.json", self.duelist)
 			await self.bot.say("Duel list has been reset")
 		else:
@@ -277,6 +333,21 @@ class Duels:
 				await self.bot.say("Timer has been reset!")
 		else:
 			await self.bot.say("Please do {}tjoin to be added to the timer board!".format(ctx.prefix))
+			
+			
+			
+			
+			
+	#This cog was made by Axaios and Ridinginstyle00. And any code taken from others we also credit them here, whether we know their name or not.
+	
+	def duel_show (self):
+		ret = "**"
+		for num, duels in enumerate(self.duelist[self.nuels]):
+			ret += str(num + 1) + ") `" + duels + "`\n"
+		ret += " **"
+		return ret
+	
+	
 	def action_choose (self):
 		action = choice(sample(self.duelist[self.nuels],1))
 		return action
