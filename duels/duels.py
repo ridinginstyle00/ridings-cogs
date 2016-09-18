@@ -70,8 +70,8 @@ class Duels:
 							action = self.duelist[self.nuels]
 							action_damage1, action_damage2, action_damage3, action_damage4 = self.action_damage()
 							action_chosen1, action_chosen2, action_chosen3, action_chosen4 = sample(action,4)
-							hp_player1 = 30
-							hp_player2 = 30
+							hp_player1 = 100
+							hp_player2 = 100
 							player1_id = user.id
 							player2_id = otheruser.id
 				
@@ -199,7 +199,36 @@ class Duels:
 	async def add (self, ctx, *, Duel : str):
 		"""Adds a duel to the list"""
 		if self.nuels not in self.duelist:
-			self.duelist[self.nuels] = []
+			self.duelist[self.nuels] = ["Super Falcon Punched",
+        "shot",
+        "kidnapped",
+        "called 'The Spanker' on",
+        "ran over",
+        "Super Falcon Kicked",
+        "One Punched",
+        "used One Punch Man on",
+        "Kamehameha'd",
+        "Final Flashed",
+        "Instant Transmission Kamehameha'd",
+        "Omega Blastered",
+        "Rick Roll'd",
+        "Kaioken X4 Kamehameha'd",
+        "Spirit Bombed",
+        "hacked",
+        "Perfect Kamehameha'd",
+        "used Destructo Disc on",
+        "used Destructo Disc X2 on",
+        "used Destructo Disc Chain on",
+        "Big Bang Kamehameha'd",
+        "Big Bang Attacked",
+        "Galick Gunned",
+        "used Chuck Norris on",
+        "used Dragon Fist on",
+        "Final Kamehameha'd",
+        "Air striked",
+        "concrete donkey'd",
+        "super banana bombed",
+        "Holy Hand Grenaded"]
 			self.duelist[self.setter] = 100
 			await self.bot.say("Setter hasn't been added yet. Setter has been auto set to: **{}**".format(self.duelist[self.setter]))
 			dataIO.save_json("data/duels/duelist.json", self.duelist)
@@ -280,7 +309,54 @@ class Duels:
 	async def show (self, ctx):
 		"""Shows list of available duels"""
 		if self.nuels not in self.duelist:
-			await self.bot.say("Please do `{}duels add (action)` to start viewing duels!".format(ctx.prefix))
+			self.duelist[self.setter] = 100
+			self.duelist[self.counter] = 30
+			self.duelist[self.nuels] = ["Super Falcon Punched",
+        "shot",
+        "kidnapped",
+        "called 'The Spanker' on",
+        "ran over",
+        "Super Falcon Kicked",
+        "One Punched",
+        "used One Punch Man on",
+        "Kamehameha'd",
+        "Final Flashed",
+        "Instant Transmission Kamehameha'd",
+        "Omega Blastered",
+        "Rick Roll'd",
+        "Kaioken X4 Kamehameha'd",
+        "Spirit Bombed",
+        "hacked",
+        "Perfect Kamehameha'd",
+        "used Destructo Disc on",
+        "used Destructo Disc X2 on",
+        "used Destructo Disc Chain on",
+        "Big Bang Kamehameha'd",
+        "Big Bang Attacked",
+        "Galick Gunned",
+        "used Chuck Norris on",
+        "used Dragon Fist on",
+        "Final Kamehameha'd",
+        "Air striked",
+        "concrete donkey'd",
+        "super banana bombed",
+        "Holy Hand Grenaded"]
+			dataIO.save_json("data/duels/duelist.json", self.duelist)
+			await self.bot.say(" \n\n\n\n\nThe 30 duels are preset duels that are added automatically on first run. (Code looks like crap right now though :wink:)".format(ctx.prefix))
+			strbuffer = self.duel_show().split("\n")
+			mess = ""
+			if self.duelist[self.counter] == self.duelist[self.setter]:
+				await self.bot.say("**{}** out of **{}** spaces used!    **MAXED OUT!!**".format(len(self.duelist[self.nuels]), self.duelist[self.setter]))
+			else:
+				await self.bot.say("**{}** out of **{}** spaces used!".format(len(self.duelist[self.nuels]), self.duelist[self.setter]))
+			for line in strbuffer:
+				if len(mess) + len(line) + 1 < 300:
+					mess += "\n" + line
+				else:
+					await self.bot.say(mess)
+					mess = ""
+			if mess != "":
+				await self.bot.say(mess)
 		else:
 			strbuffer = self.duel_show().split("\n")
 			mess = ""
@@ -341,10 +417,10 @@ class Duels:
 	#This cog was made by Axaios and Ridinginstyle00. And any code taken from others we also credit them here, whether we know their name or not.
 	
 	def duel_show (self):
-		ret = "**"
+		ret = "```--------```"
 		for num, duels in enumerate(self.duelist[self.nuels]):
-			ret += str(num + 1) + ") `" + duels + "`\n"
-		ret += " **"
+			ret += str(num + 1) + ")    `" + duels + "`\n"
+		ret += "```--------```"
 		return ret
 	
 	
