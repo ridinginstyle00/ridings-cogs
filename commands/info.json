@@ -1,0 +1,9 @@
+
+{
+    "AUTHOR" : "Ridinginstyle",
+    "SHORT" : "Various Commands",
+    "DESCRIPTION" : "Adds in some funny little commands that can be used for fun.\nNOTE: Some of them may be considered harrasement",
+    "DISABLED" : false,
+    "NAME" : "Commands",
+    "INSTALL_MSG" : "`[p]help` and look under the *commands* section to view all the commands funny commands added in\nNOTE: Each time you use a picture command, it will download the picture. Each and every time!"
+}
