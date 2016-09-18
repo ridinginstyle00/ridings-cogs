@@ -1,0 +1,9 @@
+
+{
+    "AUTHOR" : "Ridinginstyle",
+    "SHORT" : "Levels and Ranks!",
+    "DESCRIPTION" : "Adds in Levels and Ranks, very similar, in fact almost exact to Mee6's leveing and ranking system!",
+    "DISABLED" : false,
+    "NAME" : "Levels",
+    "INSTALL_MSG" : "`[p]rank` to view all the commands for the cog.\nAlso do `[p]cooldown` to see the commands regarding the cooldown for EXP gain!"
+}
