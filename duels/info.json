@@ -1,0 +1,9 @@
+
+{
+    "AUTHOR" : "Ridinginstyle",
+    "SHORT" : "Duel against someone else",
+    "DESCRIPTION" : "Allows you to duel with someone else. May be laggy depending on internet speed of the hoster as the bot sends alot of messages (compensates by adding a delay between each action)!",
+    "DISABLED" : false,
+    "NAME" : "Duels",
+    "INSTALL_MSG" : "`[p]duels` is the big one for this cog. It shows mostly all the commands needed to work it. \nNOTE: You MUST do `[p]tjoin` to activate the bot on that specific server\n\nTo actually duel just do `[p]duel @mention @mention`!"
+}
