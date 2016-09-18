@@ -1,0 +1,9 @@
+
+{
+    "AUTHOR" : "Ridinginstyle",
+    "SHORT" : "Dismissal!",
+    "DESCRIPTION" : "Adds in commands that *moderate* the exiting users.",
+    "DISABLED" : false,
+    "NAME" : "Dismissal",
+    "INSTALL_MSG" : "`[p]exitset` is the command for this one. This works the exact same way as the *welcome* cog (Provided by the community repository, **which** was provided by irdumb#1229), but instead, it tells you whe people leave instead of join!"
+}
