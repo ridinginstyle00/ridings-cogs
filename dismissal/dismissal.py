@@ -7,8 +7,8 @@ from __main__ import send_cmd_help
 import os
 
 
-default_greeting = "**{0}**\n{1.mention} **Left the server!**``` ```"
-default_settings = {"GREETING": default_greeting, "ON": False, "CHANNEL": None}
+default_greeting = "**{0}**\n{1.mention} ({1.display_name})**Left the server!**``` ```"
+default_settings = {"EXIT": default_greeting, "ON": False, "CHANNEL": None}
 
 class Exit:
     """Welcomes new members to the server in the default channel"""
@@ -30,7 +30,7 @@ class Exit:
         if ctx.invoked_subcommand is None:
             await send_cmd_help(ctx)
             msg = "```"
-            msg += "GREETING: {}\n".format(self.settings[server.id]["GREETING"])
+            msg += "EXIT: {}\n".format(self.settings[server.id]["EXIT"])
             msg += "CHANNEL: #{}\n".format(self.get_welcome_channel(server)) 
             msg += "ON: {}\n".format(self.settings[server.id]["ON"]) 
             msg += "```"
@@ -38,20 +38,18 @@ class Exit:
 
     @exitset.command(pass_context=True)
     async def greeting(self, ctx, *, format_msg):
-        """Sets the welcome message format for the server.
+        """Sets the exit message format for the server.
 
-        {0} is user
-        {1} is server
+        {0} is the timestamp
+        {1} is user
         Default is set to: 
-            Welcome {0.name} to {1.name}!
+            **{0}**\n{1.id} ({1.display_name}) **Left the server!**
 
-        Example formats:
-            {0.mention}.. What are you doing here?
-            {1.name} has a new member! {0.name}#{0.discriminator} - {0.id}
-            Someone new joined! Who is it?! D: IS HE HERE TO HURT US?!
+        Example format:
+            {0}\n{1.name} left!
         """
         server = ctx.message.server
-        self.settings[server.id]["GREETING"] = format_msg
+        self.settings[server.id]["EXIT"] = format_msg
         fileIO("data/dismissal/settings.json","save",self.settings)
         await self.bot.say("Dismissal message set for the server.")
         await self.send_testing_msg(ctx)
@@ -99,7 +97,7 @@ class Exit:
             return
         channel = self.get_welcome_channel(server)
         if self.speak_permissions(server):
-            await self.bot.send_message(channel, self.settings[server.id]["GREETING"].format(datetime.now(), member))
+            await self.bot.send_message(channel, self.settings[server.id]["EXIT"].format(datetime.now(), member))
         else:
             print("Permissions Error. User that joined: {0.name}".format(member))
             print("Bot doesn't have permissions to send messages to {0.name}'s #{1.name} channel".format(server,channel))
@@ -117,7 +115,7 @@ class Exit:
         channel = self.get_welcome_channel(server)
         await self.bot.send_message(ctx.message.channel, "`Sending a testing message to `{0.mention}".format(channel))
         if self.speak_permissions(server):
-            await self.bot.send_message(channel, self.settings[server.id]["GREETING"].format(datetime.now(), ctx.message.author))
+            await self.bot.send_message(channel, self.settings[server.id]["EXIT"].format(datetime.now(), ctx.message.author))
         else: 
             await self.bot.send_message(ctx.message.channel,"I do not have permissions to send messages to {0.mention}".format(channel))
         
