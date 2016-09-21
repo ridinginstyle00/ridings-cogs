@@ -11,7 +11,7 @@ default_greeting = "**{0}**\n<@{1.id}> ({1.display_name})**Left the server!**```
 default_settings = {"EXIT": default_greeting, "ON": False, "CHANNEL": None}
 
 class Exit:
-    """Welcomes new members to the server in the default channel"""
+    """Dissmisses new members to the server in the default channel"""
 
     def __init__(self, bot):
         self.bot = bot
