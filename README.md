@@ -12,4 +12,4 @@ Well the majority of the credits goes to the absolutely wonderful, magical Twent
 
 # License
 
-All I have to say is, if you use my work then mention me or credit me in it. Other than that, here have a license
+All I have to say is, if you use my work then mention me or credit me in it. Other than that, here have a [license](https://github.com/ridinginstyle00/ridings-cogs/blob/master/LICENSE)
