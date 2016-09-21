@@ -7,7 +7,7 @@ from __main__ import send_cmd_help
 import os
 
 
-default_greeting = "**{0}**\n<@{1.id}> ({1.display_name})**Left the server!**``` ```"
+default_greeting = "**{0}**\n<@{1.id}> (`{1.display_name}`)**Left the server!**``` ```"
 default_settings = {"EXIT": default_greeting, "ON": False, "CHANNEL": None}
 
 class Exit:
