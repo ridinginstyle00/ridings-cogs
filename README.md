@@ -4,7 +4,7 @@ From duels, to a leveling system, to even some nifty little commands that can be
 
 # Contact Info
 
-I'm typically online about once a day. USUALLY, around the same time each day, and I'm in [TwentySix's discord](https://discord.gg/xQnmfjE), so if you need any help or anything you can give me a call there. But I'd prefer that you send me a PM. If you don't feel like sending a PM, you can email me here: ridinginstyle00@gmail.com
+I'm typically online about once a day. USUALLY, around the same time each day, and I'm in [TwentySix's discord](https://discord.gg/xQnmfjE), so if you need any help or anything you can give me a call there. But I'd prefer that you send me a PM. If you don't feel like sending a PM, you can email me here: ridinginstyle00@gmail.com. Also please note that my name on discord is Riding. Not ridinginstyle00. 
 
 # Credits
 
